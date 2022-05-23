@@ -1,4 +1,5 @@
 import { Button, Paper, TextField } from '@material-ui/core';
+import axios from 'axios';
 import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,6 +19,7 @@ const LoginPaper = styled(Paper)`
 `;
 const Container = styled.div`
   display: flex;
+  justify-content: center;
 `;
 const LoginContainer = styled.div`
   display: flex;
@@ -39,12 +41,27 @@ function LogIn() {
       return;
     }
     try {
-      const res = await axiosInstance.post('/login', {
-        role: location.state,
-        email,
-        password,
-      });
+      // console.log(location.state)
+      // const res = await axiosInstance.post('/login', {
+      //   role: location.state,
+      //   email,
+      //   password,
+      // });
+      const res = await axios.post("http://localhost:4000/api/v1/login",
+        {
+          role: location.state,
+          email,
+          password,
+        }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      })
+      // console.log(res)
       const token = res.data.token;
+      console.log(token)
       const { name, role } = jwt(token);
 
       dispatch({ type: 'LOG_IN', payload: { token, name, role } });
@@ -56,7 +73,7 @@ function LogIn() {
         history.push(`/${role}/doctors`);
       }
     } catch (err) {
-      console.log(err.error);
+      console.log("Login error");
       setLoginError(err.error);
     }
   };

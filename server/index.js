@@ -3,7 +3,7 @@ require('dotenv').config();
 require('express-async-errors');
 const cors = require('cors');
 const morgan = require('morgan');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 const authMiddleware = require('./middleware/auth');
 const errorHandlerMiddleware = require('./middleware/errorMiddleware');
 const notFound = require('./middleware/notFound');

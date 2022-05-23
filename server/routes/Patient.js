@@ -8,7 +8,7 @@ const {
   updatePatient,
   deletePatient,
 } = require('../controllers/Patient');
-router.use('/', adminMiddleware, getAllPatientDetails);
+router.get('/', adminMiddleware, getAllPatientDetails);
 router.get('/:id', getPatientDetails);
 router.patch('/:id', updatePatient);
 router.delete('/:id', adminMiddleware, deletePatient);

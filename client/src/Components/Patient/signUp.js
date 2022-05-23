@@ -16,7 +16,7 @@ class SignUp extends React.Component {
 			age: "",
 			bloodgroup: "",
 		};
-		this.handleSubmit = this.handleSubmit.bind(this);
+		// this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	handleSubmit(e) {
 		console.log(this.state);
@@ -24,7 +24,7 @@ class SignUp extends React.Component {
 			authorization: Cookies.get("token"),
 		};
 		axios
-			.post("http://localhost:4000/patient/patientList", this.state, {
+			.post("http://localhost:6000/patient/patientList", this.state, {
 				headers: headers,
 			})
 			.then((res) => {
@@ -39,7 +39,8 @@ class SignUp extends React.Component {
 	render() {
 		return (
 			<div>
-				<Form style={{ marginTop: "25px" }}>
+				<h1>Hello</h1>
+				{/* <Form style={{ marginTop: "25px" }}>
 					<FormGroup>
 						<Row>
 							<Col sm="2">
@@ -198,7 +199,8 @@ class SignUp extends React.Component {
 							</Col>
 						</Row>
 					</FormGroup>
-				</Form>
+				</Form> */}
+				
 			</div>
 		);
 	}

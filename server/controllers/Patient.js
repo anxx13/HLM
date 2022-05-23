@@ -11,18 +11,19 @@ const getAllPatientDetails = async (req, res) => {
   res.status(StatusCodes.OK).json({ patients });
 };
 const updatePatient = async (req, res) => {
-  const { id } = req.params;
-
+  const { id } = req.params.id;
   const patient = await Patient.findByIdAndUpdate(id, req.body);
   res.status(StatusCodes.OK).json({ patient });
 };
 const deletePatient = async (req, res) => {
   const { id } = req.params;
   const patient = await Patient.findByIdAndDelete(id);
-  if (!patient) {
-    res.status(StatusCodes.BAD_REQUEST).json({ error: 'Patient not found' });
+  console.log(patient)
+  console.log(id)
+  if (patient) {
+    res.status(StatusCodes.OK);
   } else {
-    res.status(StatusCodes.OK).json({ patient });
+    res.status(StatusCodes.BAD_REQUEST).json({ error: 'Patient not found' });
   }
 };
 

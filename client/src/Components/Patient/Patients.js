@@ -11,6 +11,7 @@ import {
   Table,
 } from 'reactstrap';
 import axiosInstance from '../../utils/axiosInstance';
+import axios from 'axios';
 import Loader from '../Loader';
 function Patients() {
   const [patients, setPatients] = useState([]);
@@ -19,7 +20,14 @@ function Patients() {
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      const res = await axiosInstance.get('/patients');
+      // const res = await axiosInstance.get('/patients');
+      const res = await axios.get('http://localhost:4000/api/v1/patients', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       if (res.status === 200) {
         setPatients(res.data.patients);
         setLoading(false);
@@ -27,8 +35,17 @@ function Patients() {
     };
     getData();
   }, []);
+  // const handleDelete = async (id) => {
+  //   await axiosInstance.delete(`patients/${id}`);
+  // };
   const handleDelete = async (id) => {
-    await axiosInstance.delete(`patients/${id}`);
+    await axios.delete(`/http://localhost:4000/api/v1/patients/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
   };
   if (loading) {
     return <Loader />;

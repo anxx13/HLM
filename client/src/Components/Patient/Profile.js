@@ -25,9 +25,9 @@ function Profile() {
     }
   }, [_id]);
   const handleSubmit = async () => {
-    const res = await axiosInstance.post(`/patients/${id}`, {
-      ...patientDetails,
-    });
+    // const res = await axiosInstance.post(`/patients/${id}`, {
+    //   ...patientDetails,
+    // });
   };
 
   return (

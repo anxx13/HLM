@@ -4,6 +4,8 @@ const Patient = require('../models/Patient');
 const { StatusCodes } = require('http-status-codes');
 const Login = async (req, res) => {
   var { email, password, role } = req.body;
+  console.log(role)
+  console.log(req.body)
   if (!email || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -18,6 +20,7 @@ const Login = async (req, res) => {
     currModel = Patient;
   }
   const user = await currModel.findOne({ email: email });
+  console.log(user)
   if (!user) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: 'User not found' });
   }
@@ -33,6 +36,7 @@ const Login = async (req, res) => {
 };
 const SignUp = async (req, res) => {
   const { role, user } = req.body;
+  console.log(role);
   console.log(user);
   let currModel;
   if (role === 'admin') {
@@ -42,11 +46,13 @@ const SignUp = async (req, res) => {
   } else {
     currModel = Patient;
   }
+  console.log(currModel)
   const savedUser = await currModel.create({ ...user });
 
   if (savedUser) {
     const token = savedUser.generateAuthToken();
     res.status(StatusCodes.OK).json({ token });
+    res.json(savedUser)
   } else {
     res.status(StatusCodes.BAD_REQUEST).json({ error: 'User not saved' });
   }

@@ -1,4 +1,5 @@
 import jwt from 'jwt-decode';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import axiosInstance from '../../utils/axiosInstance';
@@ -8,20 +9,39 @@ function Profile() {
   const { _id } = jwt(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    console.log(_id)
     const getProfile = async () => {
       setLoading(true);
-      const res = await axiosInstance.get(`/admins/${_id}`);
+      // const res = await axiosInstance.get(`/admins/${_id}`);
+      const res = await axios.get(`http://localhost:4000/api/v1/admins/${_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      console.log(res);
       if (res.status === 200) {
         setAdminDetails(res.data.admin);
+        console.log(adminDetails)
         setLoading(false);
       } else {
-        console.log(res.data.error);
+        // console.log(res.data.error);
+        console.log("Profile error");
+
       }
     };
     getProfile();
   }, []);
   const handleSubmit = async () => {
-    await axiosInstance.update(`/admins/${_id}`, { ...adminDetails });
+    await axios.patch(`http://localhost:4000/api/v1/admins/${_id}`, { ...adminDetails }, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }
+    );
   };
   if (loading) {
     return <Loader />;
@@ -34,7 +54,7 @@ function Profile() {
           <h1>Edit Profile</h1>
           <Form>
             <FormGroup>
-              <Row mt="3">
+              {/* <Row mt="3">
                 <Col sm="2">
                   <Label>Name</Label>
                 </Col>
@@ -47,7 +67,7 @@ function Profile() {
                     }}
                   />
                 </Col>
-              </Row>
+              </Row> */}
             </FormGroup>
             <FormGroup>
               <Row mt="3">
